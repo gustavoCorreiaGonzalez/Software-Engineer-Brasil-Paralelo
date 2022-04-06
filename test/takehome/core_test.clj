@@ -3,6 +3,28 @@
             [java-time :as time]
             [takehome.core :as sub]))
 
+(deftest media-date-between-subscription-date-test
+  (are [result subscription] (= result
+                            (sub/media-date-between-subscription-date?
+                             {:released-at (time/local-date-time "2019-07-24T20:02:34.691")}
+                             subscription))
+    true  {:subscription-start (time/local-date-time "2019-01-24T11:46:22.811")
+           :subscription-end   (time/local-date-time "2020-01-24T11:46:22.811") }
+    false {:subscription-start (time/local-date-time "2017-01-24T11:46:22.811")
+           :subscription-end   (time/local-date-time "2019-01-24T11:46:22.811") }
+    false {:subscription-start (time/local-date-time "2020-01-24T08:30:00.154")
+           :subscription-end   (time/local-date-time "2021-01-24T08:30:00.154")})
+  (are [result subscription] (= result
+                                (sub/media-date-between-subscription-date?
+                                 {:released-at (time/local-date-time "2021-05-01T00:00:00.000")}
+                                 subscription))
+    false {:subscription-start (time/local-date-time "2019-01-24T11:46:22.811")
+           :subscription-end   (time/local-date-time "2020-01-24T11:46:22.811")}
+    false {:subscription-start (time/local-date-time "2017-01-24T11:46:22.811")
+           :subscription-end   (time/local-date-time "2019-01-24T11:46:22.811")}
+    false {:subscription-start (time/local-date-time "2020-01-24T08:30:00.154")
+           :subscription-end   (time/local-date-time "2021-01-24T08:30:00.154")}))
+
 (deftest test-patriota
   (are [result purchase] (= result
                             (sub/can-access?
