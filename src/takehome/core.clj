@@ -23,6 +23,12 @@
 (defn premium-access? [midia subscription]
   (contains? {:series nil :podcast nil :debate nil :interview nil :course nil} (:type midia)))
 
+(defn mecenas-access? [midia subscription]
+  (or
+   (contains? {:series nil :podcast nil :debate nil :interview nil :course nil} (:type midia))
+   (and (= (:type midia) :patron)
+        (media-date-between-subscription-date? midia subscription))))
+
 (defn can-access? [midia subscription]
   (and
    (active-subscription? subscription)

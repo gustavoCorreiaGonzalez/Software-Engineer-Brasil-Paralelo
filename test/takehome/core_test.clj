@@ -122,6 +122,41 @@
      :subscription-start (time/local-date-time "2017-01-24T11:46:22.811")
      :subscription-end   (time/local-date-time "2019-01-24T11:46:22.811")}))
 
+(deftest mecenas-access-test
+  (are [result midia subscription] (= result
+                                      (sub/mecenas-access?
+                                       midia
+                                       subscription))
+    true
+    {:type :interview :name "Congresso Brasil Paralelo - Rodrigo gurgel", :released-at (time/local-date-time "2019-01-24T11:45:57.229")}
+    {:type :mecenas
+     :subscription-start (time/local-date-time "2019-01-24T11:46:22.811")
+     :subscription-end   (time/local-date-time "2020-01-24T11:46:22.811")}
+
+    true
+    {:type :interview :name "Congresso Brasil Paralelo - Alexandre Borges", :released-at (time/local-date-time "2019-11-16T21:40:51.621")}
+    {:type :mecenas
+     :subscription-start (time/local-date-time "2021-01-01T11:46:22.811")
+     :subscription-end   (time/local-date-time "2022-01-01T11:46:22.811")}
+
+    true
+    {:type :podcast :name "Rap / Funk - Podcast Cultura Paralela #3", :released-at (time/local-date-time "2020-03-29T20:02:34.345")}
+    {:type :mecenas
+     :subscription-start (time/local-date-time "2017-01-24T11:46:22.811")
+     :subscription-end   (time/local-date-time "2019-01-24T11:46:22.811")}
+
+    false
+    {:type :patron :name "Relatório Mecenas", :released-at (time/local-date-time "2020-08-10T20:00:00.656")}
+    {:type :mecenas
+     :subscription-start (time/local-date-time "2017-01-24T11:46:22.811")
+     :subscription-end   (time/local-date-time "2019-01-24T11:46:22.811")}
+
+    true
+    {:type :patron :name "Relatório Mecenas", :released-at (time/local-date-time "2020-08-10T20:00:00.656")}
+    {:type :mecenas
+     :subscription-start (time/local-date-time "2020-01-24T11:46:22.811")
+     :subscription-end   (time/local-date-time "2021-01-24T11:46:22.811")}))
+
 (deftest can-access-test
   (are [result purchase] (= result
                             (sub/can-access?
