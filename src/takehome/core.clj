@@ -20,6 +20,9 @@
     (= (:type midia) :interview)
     (media-date-between-subscription-date? midia subscription))))
 
+(defn premium-access? [midia subscription]
+  (contains? {:series nil :podcast nil :debate nil :interview nil :course nil} (:type midia)))
+
 (defn can-access? [midia subscription]
   (and
    (active-subscription? subscription)
