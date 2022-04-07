@@ -38,3 +38,8 @@ As regras que testaremos são as seguintes:
   mais os "relatórios mecenas" lançados durante a validade de sua assinatura (12
   meses)
 
+# Github
+
+Caso preferirem, podem acessar a entrega no meu [github].
+
+[github]: https://github.com/gustavoCorreiaGonzalez/Software-Engineer-Brasil-Paralelo/tree/main
