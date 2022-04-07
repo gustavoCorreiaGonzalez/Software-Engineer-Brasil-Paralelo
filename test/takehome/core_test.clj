@@ -158,13 +158,48 @@
      :subscription-end   (time/local-date-time "2021-01-24T11:46:22.811")}))
 
 (deftest can-access-test
-  (are [result purchase] (= result
-                            (sub/can-access?
-                             {:type :series :name "Brasil - A Última Cruzada", :released-at (time/local-date-time "2019-07-08T16:37:11.184")}
-                             purchase))
-    false  {:type               :patriota
-           :subscription-start (time/local-date-time "2019-01-24T11:46:22.811")
-           :subscription-end   (time/local-date-time "2020-01-24T11:46:22.811") }
-    true {:type               :patriota
-           :subscription-start (time/local-date-time "2021-07-01T12:40:10.124")
-           :subscription-end   (time/local-date-time "2022-07-01T12:40:10.124") }))
+  (are [result midia subscription] (= result
+                                      (sub/can-access?
+                                       midia
+                                       subscription))
+    false
+    {:type :series :name "Brasil - A Última Cruzada", :released-at (time/local-date-time "2019-07-08T16:37:11.184")}
+    {:type :patriota
+     :subscription-start (time/local-date-time "2019-01-24T11:46:22.811")
+     :subscription-end   (time/local-date-time "2020-01-24T11:46:22.811")}
+
+    true
+    {:type :series :name "Brasil - A Última Cruzada", :released-at (time/local-date-time "2019-07-08T16:37:11.184")}
+    {:type :patriota
+     :subscription-start (time/local-date-time "2021-07-01T12:40:10.124")
+     :subscription-end   (time/local-date-time "2022-07-01T12:40:10.124")}
+
+    true
+    {:type :podcast :name "Rap / Funk - Podcast Cultura Paralela #3", :released-at (time/local-date-time "2020-03-29T20:02:34.345")}
+    {:type :premium
+     :subscription-start (time/local-date-time "2022-01-24T11:46:22.811")
+     :subscription-end   (time/local-date-time "2023-01-24T11:46:22.811")}
+
+    false
+    {:type :patron :name "Relatório Mecenas", :released-at (time/local-date-time "2020-08-10T20:00:00.656")}
+    {:type :premium
+     :subscription-start (time/local-date-time "2017-01-24T11:46:22.811")
+     :subscription-end   (time/local-date-time "2019-01-24T11:46:22.811")}
+
+    false
+    {:type :patron :name "Relatório Mecenas", :released-at (time/local-date-time "2020-08-10T20:00:00.656")}
+    {:type :mecenas
+     :subscription-start (time/local-date-time "2017-01-24T11:46:22.811")
+     :subscription-end   (time/local-date-time "2019-01-24T11:46:22.811")}
+
+    false
+    {:type :patron :name "Relatório Mecenas", :released-at (time/local-date-time "2020-08-10T20:00:00.656")}
+    {:type :mecenas
+     :subscription-start (time/local-date-time "2022-01-15T11:46:22.811")
+     :subscription-end   (time/local-date-time "2023-01-15T11:46:22.811")}
+
+    true
+    {:type :patron :name "Relatório Mecenas", :released-at (time/local-date-time "2022-02-01T20:00:00.656")}
+    {:type :mecenas
+     :subscription-start (time/local-date-time "2021-09-15T11:46:22.811")
+     :subscription-end   (time/local-date-time "2022-09-15T11:46:22.811")}))

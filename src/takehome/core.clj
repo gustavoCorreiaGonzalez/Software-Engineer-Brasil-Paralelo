@@ -14,6 +14,7 @@
 
 (defn patriota-access? [midia subscription]
   (or
+  ;;  gostaria de perguntar se usando a chamada da função direta do java usando o ponto é uma boa prática?
   ;;  (.contains [:series :podcast :debate] (:type midia))
    (contains? {:series nil :podcast nil :debate nil} (:type midia))
    (and
@@ -32,4 +33,7 @@
 (defn can-access? [midia subscription]
   (and
    (active-subscription? subscription)
-   (= (:type subscription) :patriota) (patriota-access? midia subscription)))
+   (case (:type subscription)
+     :patriota (patriota-access? midia subscription)
+     :premium (premium-access? midia subscription)
+     :mecenas (mecenas-access? midia subscription))))
